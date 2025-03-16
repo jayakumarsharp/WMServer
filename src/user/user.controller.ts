@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 /**
  * whatever the string pass in controller decorator it will be appended to
@@ -27,6 +29,7 @@ export class UserController {
    * so the API URL to create User will be
    * POST http://localhost:3000/user
    */
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
@@ -37,6 +40,7 @@ export class UserController {
    * so the API URL will be
    * GET http://localhost:3000/user
    */
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.userService.findAllUser();
@@ -47,6 +51,7 @@ export class UserController {
    * so the API URL will be
    * GET http://localhost:3000/user/:id
    */
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.viewUser(+id);
@@ -57,6 +62,7 @@ export class UserController {
    * so the API URL will be
    * PATCH http://localhost:3000/user/:id
    */
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(+id, updateUserDto);
@@ -67,6 +73,7 @@ export class UserController {
    * so the API URL will be
    * DELETE http://localhost:3000/user/:id
    */
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.removeUser(+id);
