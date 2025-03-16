@@ -74,4 +74,13 @@ export class UserService {
   removeUser(id: number): Promise<{ affected?: number | null }> {
     return this.userRepository.delete(id);
   }
+
+  /**
+   * this function used to get data of use whose id is passed in parameter
+   * @param id is type of number, which represent the id of user.
+   * @returns promise of user
+   */
+  findUserByUsername(username: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ username });
+  }
 }
