@@ -21,7 +21,7 @@ import { AuthGuard } from '../auth/auth.guard';
  */
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   /**
    * Post decorator represents method of request as we have used post decorator the method
