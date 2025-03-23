@@ -9,6 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { MarketDataModule } from './marketdata/marketdata.module';
 import { Portfolio } from './portfolio/entities/portfolio.entity';
 import { Holding } from './portfolio/entities/holding.entity';
+import { Watchlist } from './watchlist/entities/watchlist.entity';
+import { WatchlistItem } from './watchlist/entities/watchlist-item.entity';
+
 import { PortfolioModule } from './portfolio/portfolio.module';
 @Module({
   imports: [
@@ -25,7 +28,7 @@ import { PortfolioModule } from './portfolio/portfolio.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User, Portfolio, Holding],
+        entities: [User, Portfolio, Holding, Watchlist, WatchlistItem],
         synchronize: true, // Be careful with this in production
       }),
       inject: [ConfigService],
@@ -34,7 +37,6 @@ import { PortfolioModule } from './portfolio/portfolio.module';
     AuthModule,
     MarketDataModule,
     PortfolioModule,
-
   ],
   controllers: [AppController],
   providers: [AppService],

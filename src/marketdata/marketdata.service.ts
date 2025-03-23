@@ -16,7 +16,7 @@ export class MarketDataService {
    */
   async getStockPrice(symbol: string): Promise<number | null> {
     const cacheKey = `stock:${symbol}`;
-    
+
     // Check Redis Cache
     const cachedPrice = await this.redisClient.get(cacheKey);
     if (cachedPrice) {
@@ -29,11 +29,17 @@ export class MarketDataService {
       if (!regularMarketPrice) throw new Error('Price not found');
 
       // Store in Redis cache (expires in 1 hour)
-      await this.redisClient.setex(cacheKey, 3600, regularMarketPrice.toString());
+      await this.redisClient.setex(
+        cacheKey,
+        3600,
+        regularMarketPrice.toString(),
+      );
 
       return regularMarketPrice;
     } catch (error) {
-      this.logger.error(`Error fetching stock data for ${symbol}: ${error.message}`);
+      this.logger.error(
+        `Error fetching stock data for ${symbol}: ${error.message}`,
+      );
       return null;
     }
   }
@@ -43,10 +49,14 @@ export class MarketDataService {
    */
   async getCompanyDetails(symbol: string): Promise<any> {
     try {
-      const data = await yahooFinance.quoteSummary(symbol, { modules: ['assetProfile'] });
+      const data = await yahooFinance.quoteSummary(symbol, {
+        modules: ['assetProfile'],
+      });
       return data.assetProfile || null;
     } catch (error) {
-      this.logger.error(`Error fetching company details for ${symbol}: ${error.message}`);
+      this.logger.error(
+        `Error fetching company details for ${symbol}: ${error.message}`,
+      );
       return null;
     }
   }

@@ -19,7 +19,8 @@ export class MarketDataController {
    */
   @Get('company/:symbol')
   async getCompanyDetails(@Param('symbol') symbol: string) {
-    const companyDetails = await this.marketDataService.getCompanyDetails(symbol);
+    const companyDetails =
+      await this.marketDataService.getCompanyDetails(symbol);
     return { symbol, companyDetails };
   }
 }

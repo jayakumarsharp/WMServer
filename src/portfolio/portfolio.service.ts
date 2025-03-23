@@ -20,11 +20,17 @@ export class PortfolioService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createPortfolio(userId: number, createPortfolioDto: CreatePortfolioDto): Promise<Portfolio> {
+  async createPortfolio(
+    userId: number,
+    createPortfolioDto: CreatePortfolioDto,
+  ): Promise<Portfolio> {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) throw new NotFoundException('User not found');
 
-    const portfolio = this.portfolioRepository.create({ ...createPortfolioDto, user });
+    const portfolio = this.portfolioRepository.create({
+      ...createPortfolioDto,
+      user,
+    });
     return this.portfolioRepository.save(portfolio);
   }
 
@@ -35,16 +41,25 @@ export class PortfolioService {
     });
   }
 
-  async addHolding(portfolioId: number, addHoldingDto: AddHoldingDto): Promise<Holding> {
-    const portfolio = await this.portfolioRepository.findOne({ where: { id: portfolioId } });
+  async addHolding(
+    portfolioId: number,
+    addHoldingDto: AddHoldingDto,
+  ): Promise<Holding> {
+    const portfolio = await this.portfolioRepository.findOne({
+      where: { id: portfolioId },
+    });
     if (!portfolio) throw new NotFoundException('Portfolio not found');
 
-    const holding = this.holdingRepository.create({ ...addHoldingDto, portfolio });
+    const holding = this.holdingRepository.create({
+      ...addHoldingDto,
+      portfolio,
+    });
     return this.holdingRepository.save(holding);
   }
 
   async deletePortfolio(portfolioId: number): Promise<void> {
     const result = await this.portfolioRepository.delete(portfolioId);
-    if (result.affected === 0) throw new NotFoundException('Portfolio not found');
+    if (result.affected === 0)
+      throw new NotFoundException('Portfolio not found');
   }
 }
