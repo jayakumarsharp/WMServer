@@ -15,6 +15,8 @@ export class Holding {
   @Column('decimal')
   purchasePrice: number;
 
-  @ManyToOne(() => Portfolio, (portfolio) => portfolio.holdings, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Portfolio, (portfolio) => portfolio.holdings, {
+    onDelete: 'CASCADE',
+  })
   portfolio: Portfolio;
 }

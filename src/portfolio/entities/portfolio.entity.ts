@@ -1,6 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Holding } from './holding.entity';
+import { Watchlist } from '../../watchlist/entities/watchlist.entity';
 
 @Entity()
 export class Portfolio {
@@ -15,4 +22,9 @@ export class Portfolio {
 
   @OneToMany(() => Holding, (holding) => holding.portfolio, { cascade: true })
   holdings: Holding[];
+
+  @OneToMany(() => Watchlist, (watchlist) => watchlist.portfolio, {
+    cascade: true,
+  })
+  watchlists: Watchlist[];
 }

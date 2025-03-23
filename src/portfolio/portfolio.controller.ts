@@ -1,4 +1,13 @@
-import { Controller, Post, Get, Delete, Param, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Param,
+  Body,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { PortfolioService } from './portfolio.service';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { AddHoldingDto } from './dto/add-holding.dto';
@@ -11,7 +20,10 @@ export class PortfolioController {
 
   @Post()
   createPortfolio(@Req() req, @Body() createPortfolioDto: CreatePortfolioDto) {
-    return this.portfolioService.createPortfolio(req.user.id, createPortfolioDto);
+    return this.portfolioService.createPortfolio(
+      req.user.id,
+      createPortfolioDto,
+    );
   }
 
   @Get()
