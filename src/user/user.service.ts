@@ -13,7 +13,7 @@ export class UserService {
    */
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   /**
    * this is function is used to create User in User Entity.

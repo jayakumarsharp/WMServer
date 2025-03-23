@@ -6,7 +6,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
-
+import { MarketDataModule } from './marketdata/marketdata.module';
+import { Portfolio } from './portfolio/entities/portfolio.entity';
+import { Holding } from './portfolio/entities/holding.entity';
+import { PortfolioModule } from './portfolio/portfolio.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,15 +25,18 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User],
+        entities: [User, Portfolio, Holding],
         synchronize: true, // Be careful with this in production
       }),
       inject: [ConfigService],
     }),
     UserModule,
     AuthModule,
+    MarketDataModule,
+    PortfolioModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
