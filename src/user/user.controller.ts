@@ -29,7 +29,6 @@ export class UserController {
    * so the API URL to create User will be
    * POST http://localhost:3000/user
    */
-  //@UseGuards(AuthGuard)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
