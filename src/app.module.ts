@@ -30,6 +30,9 @@ import { PortfolioModule } from './portfolio/portfolio.module';
         database: configService.get<string>('DB_DATABASE'),
         entities: [User, Portfolio, Holding, Watchlist, WatchlistItem],
         synchronize: true, // Be careful with this in production
+        ssl: {
+          rejectUnauthorized: false, // Required for NeonDB
+        },
       }),
       inject: [ConfigService],
     }),

@@ -60,4 +60,17 @@ export class MarketDataService {
       return null;
     }
   }
+
+  /**
+   * Search for securities using Yahoo Finance API
+   */
+  async searchSecurities(query: string): Promise<any[]> {
+    try {
+      const results = await yahooFinance.search(query);
+      return results.quotes || [];
+    } catch (error) {
+      this.logger.error(`Error searching securities: ${error.message}`);
+      return [];
+    }
+  }
 }

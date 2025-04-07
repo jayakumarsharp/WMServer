@@ -7,11 +7,14 @@ import {
   Body,
   Req,
   UseGuards,
+  Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PortfolioService } from './portfolio.service';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { AddHoldingDto } from './dto/add-holding.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
 
 @UseGuards(AuthGuard)
 @Controller('portfolios')
@@ -26,6 +29,12 @@ export class PortfolioController {
     );
   }
 
+  
+  @Patch(':portfolioId')
+updatePortfolio(@Param('portfolioId') portfolioId: number, @Body() updateDto: UpdatePortfolioDto) {
+  return this.portfolioService.updatePortfolio(portfolioId, updateDto);
+}
+
   @Get()
   getUserPortfolios(@Req() req) {
     return this.portfolioService.getUserPortfolios(req.user.id);
@@ -38,9 +47,11 @@ export class PortfolioController {
   ) {
     return this.portfolioService.addHolding(portfolioId, addHoldingDto);
   }
-
+  
   @Delete(':portfolioId')
-  deletePortfolio(@Param('portfolioId') portfolioId: number) {
+  deletePortfolio(@Param('portfolioId', ParseIntPipe) portfolioId: number) {
+    console.log(portfolioId);
     return this.portfolioService.deletePortfolio(portfolioId);
   }
+  
 }
