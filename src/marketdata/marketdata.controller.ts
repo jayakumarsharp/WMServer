@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param } from '@nestjs/common'
 import { MarketDataService } from './marketdata.service';
 
 @Controller('marketdata')
@@ -22,5 +22,10 @@ export class MarketDataController {
     const companyDetails =
       await this.marketDataService.getCompanyDetails(symbol);
     return { symbol, companyDetails };
+  }
+  
+  @Get('/search')
+  async searchSecurities(@Query('query') query: string) {
+    return this.marketDataService.searchSecurities(query);
   }
 }

@@ -6,6 +6,7 @@ import { Holding } from './entities/holding.entity';
 import { User } from '../user/entities/user.entity';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { AddHoldingDto } from './dto/add-holding.dto';
+import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
 
 @Injectable()
 export class PortfolioService {
@@ -31,6 +32,15 @@ export class PortfolioService {
       ...createPortfolioDto,
       user,
     });
+    return this.portfolioRepository.save(portfolio);
+  }
+  
+  async updatePortfolio(portfolioId: number, updateDto: UpdatePortfolioDto): Promise<Portfolio> {
+    const portfolio = await this.portfolioRepository.findOne({ where: { id: portfolioId } });
+    if (!portfolio) throw new NotFoundException('Portfolio not found');
+    if (updateDto.name) {
+      portfolio.name = updateDto.name;
+    }
     return this.portfolioRepository.save(portfolio);
   }
 
